@@ -1,0 +1,17 @@
+pay site prep: [19 ]
+pay lay floors: [26 ]
+pay walls: [38, 36, 35]
+pay roof: [60, 57, 58]
+pay WindowsDoors: [105, 123, 107]
+pay plumbing (s/ WindowsDoors): [109]
+pay plumbing : [213]
+pay elec sys: [413]
+pay paint ext: [12 minutes+]
+pay paint int (s/ ext): [8.5min +]
+all : [10min+]
+
+=====x========
+
+pay paint int : [20]
+pay paint ext : [25]
+pay elec sys: [34]

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
+
+<organisational-specification
+    id="house_contruction"
+    os-version="0.8"
+
+    xmlns='http://moise.sourceforge.net/os'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:schemaLocation='http://moise.sourceforge.net/os
+    http://moise.sourceforge.net/xml/os.xsd' >
+
+    <structural-specification>
+
+        <role-definitions>
+            <role id="house_owner" />
+            <role id="building_company" />
+            <role id="site_prep_contractor" > <extends role="building_company"/>  </role>
+            <role id="bricklayer" >           <extends role="building_company"/>  </role>
+            <role id="roofer" >               <extends role="building_company"/>  </role>
+            <role id="window_fitter" >        <extends role="building_company"/>  </role>
+            <role id="door_fitter" >          <extends role="building_company"/>  </role>
+            <role id="plumber" >              <extends role="building_company"/>  </role>
+            <role id="electrician" >          <extends role="building_company"/>  </role>
+            <role id="painter" >              <extends role="building_company"/>  </role>
+        </role-definitions>
+
+        <group-specification id="house_group">
+            <roles>
+                <role id="house_owner"          min="1" max="1"/>
+                <role id="site_prep_contractor" min="1" max="1"/>
+                <role id="bricklayer"           min="1" max="2"/>
+                <role id="roofer"               min="1" max="1"/>
+                <role id="window_fitter"        min="1" max="1"/>
+                <role id="door_fitter"          min="1" max="1"/>
+                <role id="plumber"              min="1" max="1"/>
+                <role id="electrician"          min="1" max="1"/>
+                <role id="painter"              min="1" max="1"/>
+            </roles>
+
+            <links>
+                <link from="house_owner"      type="authority"     to="building_company" scope="intra-group" />
+                <link from="building_company" type="communication" to="house_owner"      scope="intra-group" />
+            </links>
+
+            <formation-constraints>
+                <compatibility from="building_company" to="building_company"  scope="intra-group" />
+            </formation-constraints>
+
+        </group-specification>
+    </structural-specification>
+
+    <functional-specification>
+        <scheme id="build_house_sch">
+            <goal id="house_built">
+                <plan operator="sequence">
+
+                    <goal id="site_prepared">
+                        <plan operator="sequence">
+                            <goal id="get_site_prepared"  ttf="20 minutes" ></goal>
+                            <goal id="prep_site_paid"  ttf="20 minutes" ></goal>
+                        </plan>
+                    </goal>
+
+                    <goal id="floor_layout">
+                        <plan operator="sequence">
+                            <goal id="floors_laid"  ttf="20 minutes" ></goal>
+                            <goal id="floor_paid"  ttf="20 minutes" ></goal>
+                        </plan>
+                    </goal>
+
+                    <goal id="walls">
+                        <plan operator="sequence">
+                            <goal id="walls_built"  ttf="20 minutes" ></goal>
+                            <goal id="walls_paid"  ttf="20 minutes" ></goal>
+                        </plan>
+                    </goal>
+
+                    <goal id="rwd">
+                        <plan operator="parallel">
+                            <goal id="roof">
+                                <plan operator="sequence">
+                                    <goal id="roof_built"      ttf="30 minutes" ></goal>
+                                    <goal id="roof_paid"       ttf="30 minutes" ></goal>
+                                </plan>
+                            </goal>
+
+                            <goal id="windows_doors">
+                                <plan operator="sequence">
+                                    <goal id="windows_fitted"      ttf="30 minutes" ></goal>
+                                    <goal id="doors_fitted"      ttf="30 minutes" ></goal>
+                                    <goal id="windows_doors_paid"       ttf="30 minutes" ></goal>
+                                </plan>
+                            </goal>
+                        </plan>
+                    </goal>
+
+                    <goal id="install_systems">
+                        <plan operator="sequence">
+                            <goal id="plumbing">
+                                <plan operator="sequence">
+                                    <goal id="plumbing_installed"      ttf="30 minutes" ></goal>
+                                    <goal id="plumbing_paid"       ttf="30 minutes" ></goal>
+                                </plan>
+                            </goal>
+
+                            <goal id="electrical_system">
+                                <plan operator="sequence">
+                                    <goal id="electrical_system_installed"      ttf="30 minutes" ></goal>
+                                    <goal id="electrical_paid"       ttf="30 minutes" ></goal>
+                                </plan>
+                            </goal>
+
+                        </plan>
+                    </goal>
+
+                    <goal id="house_painted">
+                        <plan operator="parallel">
+                            <goal id="exterior_paint">
+                                <plan operator="sequence">
+                                    <goal id="exterior_painted"      ttf="30 minutes" ></goal>
+                                    <goal id="exterior_paint_paid"       ttf="30 minutes" ></goal>
+                                </plan>
+                            </goal>
+
+                            <goal id="interior_paint">
+                                <plan operator="sequence">
+                                    <goal id="interior_painted"      ttf="30 minutes" ></goal>
+                                    <goal id="interior_paint_paid"       ttf="30 minutes" ></goal>
+                                </plan>
+                            </goal>
+
+                        </plan>
+                    </goal>
+
+                </plan>
+            </goal>
+
+
+            <mission id="management_of_house_building" min="1" max="1">
+                <goal id="house_built"></goal>
+            </mission>
+
+            <mission id="prepare_site" min="1" max="1">
+                <goal id="get_site_prepared" ></goal>
+            </mission>
+
+            <mission id="lay_floors" min="1" max="1">
+                <goal id="floors_laid" ></goal>
+            </mission>
+
+            <mission id="build_walls" min="1" max="1">
+                <goal id="walls_built" ></goal>
+            </mission>
+
+            <mission id="build_roof" min="1" max="1">
+                <goal id="roof_built" ></goal>
+            </mission>
+
+            <mission id="fit_windows" min="1" max="1">
+                <goal id="windows_fitted" ></goal>
+            </mission>
+
+            <mission id="fit_doors" min="1" max="1">
+                <goal id="doors_fitted" ></goal>
+            </mission>
+
+            <mission id="install_plumbing" min="1" max="1">
+                <goal id="plumbing_installed" ></goal>
+            </mission>
+
+
+            <mission id="install_electrical_system" min="1" max="1">
+                <goal id="electrical_system_installed" ></goal>
+            </mission>
+
+            <mission id="paint_exterior" min="1" max="1">
+                <goal id="exterior_painted" ></goal>
+            </mission>
+
+            <mission id="paint_interior" min="1" max="1">
+                <goal id="interior_painted" ></goal>
+            </mission>
+
+            <!-- MISSIONS FOR PAYING -->
+
+            <mission id="pay_site_prep" min="1" max="1"> <goal id="prep_site_paid" ></goal> </mission>
+
+            <mission id="pay_lay_floors" min="1" max="1"> <goal id="floor_paid" ></goal> </mission>
+
+            <mission id="pay_walls" min="1" max="1"> <goal id="walls_paid" ></goal> </mission>
+
+            <mission id="pay_roof" min="1" max="1"> <goal id="roof_paid" ></goal> </mission>
+
+            <mission id="pay_windows_doors" min="1" max="1"> <goal id="windows_doors_paid" ></goal> </mission>
+
+            <mission id="pay_plumbing" min="1" max="1"> <goal id="plumbing_paid" ></goal> </mission>
+
+            <mission id="pay_electrical_system" min="1" max="1"> <goal id="electrical_paid" ></goal> </mission>
+
+            <mission id="pay_ext_painting" min="1" max="1"> <goal id="exterior_paint_paid" ></goal> </mission>
+
+            <mission id="pay_int_painting" min="1" max="1"> <goal id="interior_paint_paid" ></goal> </mission>
+
+        </scheme>
+    </functional-specification>
+
+    <normative-specification>
+        <norm id="n1"      type="obligation"   role="house_owner"          mission="management_of_house_building"   time-constraint="2 minutes" ></norm>
+
+        <norm id="n2.1"    type="obligation"   role="site_prep_contractor" mission="prepare_site" ></norm>
+
+        <norm id="n3.1"    type="obligation"   role="bricklayer"           mission="lay_floors" ></norm>
+
+        <norm id="n4.1"    type="obligation"   role="bricklayer"           mission="build_walls" ></norm>
+
+        <norm id="n5.1"    type="obligation"   role="roofer"               mission="build_roof" ></norm>
+
+        <norm id="n6.1"    type="obligation"   role="window_fitter"        mission="fit_windows" ></norm>
+        <norm id="n6.2"    type="obligation"   role="door_fitter"          mission="fit_doors" ></norm>
+
+        <norm id="n8.1"    type="obligation"   role="plumber"              mission="install_plumbing" ></norm>
+
+        <norm id="n9.1"    type="obligation"   role="electrician"          mission="install_electrical_system" ></norm>
+
+        <norm id="n10.1"   type="obligation"   role="painter"              mission="paint_exterior" ></norm>
+        <norm id="n10.2"   type="obligation"   role="painter"              mission="paint_interior" ></norm>
+
+        <!-- NORMS FOR PAYING -->
+
+        <norm id="n2.2"    type="obligation"   role="house_owner"          mission="pay_site_prep" ></norm>
+
+        <norm id="n3.2"    type="obligation"   role="house_owner"          mission="pay_lay_floors" ></norm>
+
+        <norm id="n4.2"    type="obligation"   role="house_owner"          mission="pay_walls" ></norm>
+
+        <norm id="n5.2"    type="obligation"   role="house_owner"          mission="pay_roof" ></norm>
+
+        <norm id="n6.3"    type="obligation"   role="house_owner"          mission="pay_windows_doors" ></norm>
+
+        <norm id="n8.2"    type="obligation"   role="house_owner"          mission="pay_plumbing" ></norm>
+        <norm id="n9.2"    type="obligation"   role="house_owner"          mission="pay_electrical_system" ></norm>
+
+        <norm id="n10.3"   type="obligation"   role="house_owner"          mission="pay_ext_painting" ></norm>
+
+        <norm id="n10.4"   type="obligation"   role="house_owner"          mission="pay_int_painting" ></norm>
+
+
+
+    </normative-specification>
+
+</organisational-specification>
